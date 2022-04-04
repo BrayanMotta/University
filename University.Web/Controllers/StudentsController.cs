@@ -12,10 +12,10 @@ using University.BL.DTOs;
 
 namespace University.Web.Controllers
 {
-    public class CoursesController : Controller
+    public class StudentsController : Controller
     {
         private readonly IMapper mapper = MvcApplication.MapperConfiguration.CreateMapper();
-        private readonly ICourseRepository courseRepository = new CourseRepository(new UniversityModel());
+        private readonly IStudentRepository studentRepository = new StudentRepository(new UniversityModel());
         [HttpGet]
         public ActionResult Index()
         {
@@ -25,26 +25,26 @@ namespace University.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> IndexJson()
         {
-            var coursesModel = await courseRepository.GetAll();
-            var coursesDTO = coursesModel.Select(x => mapper.Map<CourseDTO>(x));
-            return Json(coursesDTO, JsonRequestBehavior.AllowGet);
+            var studentsModel = await studentRepository.GetAll();
+            var studentsDTO = studentsModel.Select(x => mapper.Map<StudentDTO>(x));
+            return Json(studentsDTO, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView(new CourseDTO());
+            return PartialView(new StudentDTO());
         }
-        
+
         [HttpPost]
-        public async Task<ActionResult> Create(CourseDTO courseDTO)
+        public async Task<ActionResult> Create(StudentDTO studentDTO)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var courseModel = mapper.Map<Course>(courseDTO);
-                    await courseRepository.Insert(courseModel);
+                    var studentModel = mapper.Map<Student>(studentDTO);
+                    await studentRepository.Insert(studentModel);
                 }
                 return Json(new ResponseDTO
                 {
@@ -65,20 +65,20 @@ namespace University.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var courseModel =  await courseRepository.GetById(id);
-            var courseDTO = mapper.Map<CourseDTO>(courseModel);
-            return PartialView(courseDTO);
+            var studentModel = await studentRepository.GetById(id);
+            var studentDTO = mapper.Map<StudentDTO>(studentModel);
+            return PartialView(studentDTO);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(CourseDTO courseDTO)
+        public async Task<ActionResult> Edit(StudentDTO studentDTO)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var courseModel = mapper.Map<Course>(courseDTO);
-                    await courseRepository.Update(courseModel);
+                    var studentModel = mapper.Map<Student>(studentDTO);
+                    await studentRepository.Update(studentModel);
                 }
                 return Json(new ResponseDTO
                 {
@@ -101,7 +101,7 @@ namespace University.Web.Controllers
         {
             try
             {
-                await courseRepository.Delete(id);
+                await studentRepository.Delete(id);
 
                 return Json(new ResponseDTO
                 {

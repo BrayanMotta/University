@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Courses</h2>
+<h2>Students</h2>
 
 <!-- Button trigger modal -->
 <button id="create" type="button" class="btn btn-primary">
@@ -11,9 +11,9 @@
 </button>
 <hr />
 
-<div id="rowCourses">
-    <div id="divCourses">
-        <table id="tableCourses" class="table table-bordered" style="width:100%">
+<div id="rowStudents">
+    <div id="divStudents">
+        <table id="tableStudents" class="table table-bordered" style="width:100%">
         </table>
     </div>
 
@@ -21,11 +21,11 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="modalCourses" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalStudents" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Courses</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Students</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -44,45 +44,46 @@
 
 <script>
     $(document).ready(function () {
-        getCourses();
+        getStudents();
     });
 
     $("#create").click(function () {
-        $("#modalCourses .modal-body", this).empty();
-        $("#modalCourses .modal-body").load("/Courses/Create");
-        $("#modalCourses").modal("show");
+        $("#modalStudents .modal-body", this).empty();
+        $("#modalStudents .modal-body").load("/Students/Create");
+        $("#modalStudents").modal("show");
     });
 
-    function getCourses() {
-        var $row = $('#rowCourses');
-        $('#divCourses').remove();
+    function getStudents() {
+        var $row = $('#rowStudents');
+        $('#divStudents').remove();
         var $div = $('<div></div>');
         $div.addClass('table-responsive mb-5');
-        $div.attr({ id: 'divCourses' });
-        $div.addClass('divCourses mb-5');
+        $div.attr({ id: 'divStudents' });
+        $div.addClass('divStudents mb-5');
         var $table = $("<table></table>");
         $table.addClass('table table-bordered display text-center');
-        $table.attr({ id: 'tableCourses', width: '100%' });
+        $table.attr({ id: 'tableStudents', width: '100%' });
         $div.append($table);
         $row.append($div);
 
-        $.get('/Courses/IndexJson').done(function (data) {
+        $.get('/Students/IndexJson').done(function (data) {
             $.notify("Load data", "info");
             console.table(data)
 
-            table = $('#tableCourses').DataTable({
+            table = $('#tableStudents').DataTable({
                 data: data,
                 "iDisplayLength": 10,
                 "order": [[0, "desc"]],
                 columns: [
-                    { title: 'ID', data: 'CourseID', className: 'd-none' },
-                    { title: 'Title', data: 'Title' },
-                    { title: 'Credits', data: 'Credits' },
+                    { title: 'ID', data: 'ID', className: 'd-none' },
+                    { title: 'LastName', data: 'LastName' },
+                    { title: 'FirstMidName', data: 'FirstMidName' },
+                    { title: 'EnrollmentDate', data: 'EnrollmentDate' },
                     { title: 'Options', data: null }
                 ],
                 columnDefs: [
                     {
-                        targets: 3,
+                        targets: 4,
                         render: function (data, type, row) {
                             return '<a href="javascript:void" class="btn btn-warning edit">Edit</a>' +
                                 '<a href="javascript:void" class="btn btn-danger delete">Delete</a>';
@@ -91,17 +92,17 @@
                 ]
             });
 
-            $('#tableCourses').on('click', 'tbody a.edit', function (e) {
+            $('#tableStudents').on('click', 'tbody a.edit', function (e) {
                 let id = $(this).parent().siblings('td')[0].innerText;
 
-                $('#modalCourses .modal-body', this).empty();
-                $('#modalCourses .modal-body').load('/Courses/Edit/' + id);
-                $("#modalCourses").modal("show");
+                $('#modalStudents .modal-body', this).empty();
+                $('#modalStudents .modal-body').load('/Students/Edit/' + id);
+                $("#modalStudents").modal("show");
             });
 
-            $('#tableCourses').on('click', 'tbody a.delete', function (data) {
+            $('#tableStudents').on('click', 'tbody a.delete', function (data) {
                 let id = $(this).parent().siblings('td')[0].innerText;
-                deleteCourse(id);
+                deleteStudent(id);
             });
 
         }).fail(function (data) {
@@ -109,10 +110,10 @@
         });
     }
 
-    function deleteCourse(id) {
-        $.get("/Courses/Delete/" + id).done(function (data) {
+    function deleteStudent(id) {
+        $.get("/Students/Delete/" + id).done(function (data) {
             if (data.IsSuccess) {
-                getCourses();
+                getStudents();
             } else {
                 $.notify(data.Message, "error");
             }
@@ -121,3 +122,4 @@
         })
     }
 </script>
+
