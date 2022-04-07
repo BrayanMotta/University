@@ -9,15 +9,13 @@ using University.BL.Repositories;
 using University.BL.Repositories.Implements;
 using AutoMapper;
 using University.BL.DTOs;
-using University.BL.Controls;
-using Newtonsoft.Json;
 
 namespace University.Web.Controllers
 {
-    public class CoursesController : Controller
+    public class InstructorsController : Controller
     {
         private readonly IMapper mapper = MvcApplication.MapperConfiguration.CreateMapper();
-        private readonly ICourseRepository courseRepository = new CourseRepository(new UniversityModel());
+        private readonly IInstructorRepository instructorRepository = new InstructorRepository(new UniversityModel());
         [HttpGet]
         public ActionResult Index()
         {
@@ -27,40 +25,26 @@ namespace University.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> IndexJson()
         {
-            var coursesModel = await courseRepository.GetAll();
-            var coursesDTO = coursesModel.Select(x => mapper.Map<CourseDTO>(x));
-            return Json(coursesDTO, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> GetCourses()
-        {
-            var coursesModel = await courseRepository.GetAll();
-            var coursesDTO = coursesModel.Select(x => mapper.Map<CourseDTO>(x));
-            var coursesSelect = coursesDTO.Select(x => new SelectControl
-            {
-                Id = x.CourseID,
-                Text = x.Title
-            });
-
-            return Json(JsonConvert.SerializeObject(coursesSelect), JsonRequestBehavior.AllowGet);
+            var instructorsModel = await instructorRepository.GetAll();
+            var instructorsDTO = instructorsModel.Select(x => mapper.Map<InstructorDTO>(x));
+            return Json(instructorsDTO, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView(new CourseDTO());
+            return PartialView(new InstructorDTO());
         }
-        
+
         [HttpPost]
-        public async Task<ActionResult> Create(CourseDTO courseDTO)
+        public async Task<ActionResult> Create(InstructorDTO instructorDTO)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var courseModel = mapper.Map<Course>(courseDTO);
-                    await courseRepository.Insert(courseModel);
+                    var instructorModel = mapper.Map<Instructor>(instructorDTO);
+                    await instructorRepository.Insert(instructorModel);
                 }
                 return Json(new ResponseDTO
                 {
@@ -81,20 +65,20 @@ namespace University.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var courseModel =  await courseRepository.GetById(id);
-            var courseDTO = mapper.Map<CourseDTO>(courseModel);
-            return PartialView(courseDTO);
+            var instructorModel = await instructorRepository.GetById(id);
+            var instructortDTO = mapper.Map<InstructorDTO>(instructorModel);
+            return PartialView(instructortDTO);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(CourseDTO courseDTO)
+        public async Task<ActionResult> Edit(InstructorDTO instructorDTO)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var courseModel = mapper.Map<Course>(courseDTO);
-                    await courseRepository.Update(courseModel);
+                    var instructorModel = mapper.Map<Instructor>(instructorDTO);
+                    await instructorRepository.Update(instructorModel);
                 }
                 return Json(new ResponseDTO
                 {
@@ -117,7 +101,7 @@ namespace University.Web.Controllers
         {
             try
             {
-                await courseRepository.Delete(id);
+                await instructorRepository.Delete(id);
 
                 return Json(new ResponseDTO
                 {

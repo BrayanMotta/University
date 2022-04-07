@@ -10,6 +10,14 @@ namespace University.BL.DTOs
         
         public string FirstMidName { get; set; }
        
-        public DateTime HireDate { get; set; }    
+        public DateTime HireDate { get; set; }
+
+        public string HireDateFormat
+        {
+            get
+            {
+                return HireDate.ToString("yyyy-MM-dd");
+            }
+        }
     }
 }

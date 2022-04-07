@@ -48,26 +48,26 @@
     })
 
     function createStudent() {
-        //var courseID = document.getElementById("CourseID");
-        //var courseID = $("#CourseID").val();
+        
 
         var formData = $("#formCreateStudent").serialize();
 
         $.post("/Students/Create", formData).done(function (data) {
             console.table(data);
-            //swal("Notification", "The process is successful", "success");
+            
 
             if (data.IsSuccess) {
+                swal("Notification", "The process is successful", "success");
                 $("#modalStudents").modal("hide");
                 getStudents();
             } else {
-                $.notify(data.Message, "error");
+                swal("Notification", "The process is failed", "error");
             }
 
 
         }).fail(function (data) {
             console.table(data);
-            //swal("Notification", "The process is failed", "error");
+            swal("Notification", "The process is failed", "error");
         })
     }
 </script>
