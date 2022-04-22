@@ -7,5 +7,13 @@
         public string Location { get; set; }
 
         public InstructorDTO Instructor { get; set; }
+
+        public string InstructorFormat
+        {
+            get
+            {
+                return Instructor.FullName;
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@
 
     <!-- Site -->
     <link rel="stylesheet" href="~/Content/Site.css">
-    <script src="~/Scripts/Site.js"></script>
+    @*<script src="~/Scripts/Site.js"></script>*@
 
     <script type="text/javascript" src="~/Scripts/Libs/DataTables/datatables.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Scripts/Libs/DataTables/datatables.css" />
@@ -27,7 +27,13 @@
     <script type="text/javascript" src="~/Scripts/Libs/Select2/select2.min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Scripts/Libs/Select2/select2.min.css" />
 
+    <script type="text/javascript" src="~/Scripts/Libs/Morris/morris.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Scripts/Libs/Morris/morris.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
     <script type="text/javascript" src="~/Scripts/Libs/Notify/notify.js"></script>
+
+
 </head>
 <body>
     <div class="d-flex" id="wrapper">
@@ -44,6 +50,11 @@
                     @Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
                     @Html.ActionLink("About", "About", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
                     @Html.ActionLink("Contact", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                    @Html.ActionLink("Courses", "Index", "Courses", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                    @Html.ActionLink("Students", "Index", "Students", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                    @Html.ActionLink("Instructors", "Index", "Instructors", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                    @Html.ActionLink("Offices", "Index", "Offices", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                    @Html.ActionLink("Departments", "Index", "Departments", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
                     
                 
             </div>

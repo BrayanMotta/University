@@ -1,0 +1,81 @@
+﻿@model University.BL.DTOs.OfficeAssignmentDTO
+
+
+
+@using (Html.BeginForm("Create", "Offices", FormMethod.Post, new { id = "formCreateOffice" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>OfficeAssignmentDTO</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.InstructorID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="InstructorID" name="InstructorID" class="form-control"></select>
+
+                @Html.ValidationMessageFor(model => model.InstructorID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="create-save" type="button" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        getInstructorsList();
+    });
+    $("#create-save").click(function () {
+        createOffice();
+    })
+
+    function createOffice() {
+        //var courseID = document.getElementById("CourseID");
+        //var courseID = $("#CourseID").val();
+
+        var formData = $("#formCreateOffice").serialize();
+
+        $.post("/Offices/Create", formData).done(function (data) {
+            console.table(data);
+
+
+            if (data.IsSuccess) {
+                swal("Notification", "The process is successful", "success");
+                $("#modalOffices").modal("hide");
+                getOffices();
+            } else {
+                swal("Notification", "The process is failed", "error");
+            }
+
+
+        }).fail(function (data) {
+            console.table(data);
+            swal("Notification", "The process is failed", "error");
+        })
+    }
+
+    function getInstructorsList() {
+        $.get('/Instructors/GetInstructors', function (data) {
+            $("#InstructorID").empty();
+            $("#InstructorID").select2({
+                placeholder: "Seleccione",
+                data: JSON.parse(data)
+            });
+            $("#InstructorID").val("").trigger("change");
+        });
+    }
+</script>

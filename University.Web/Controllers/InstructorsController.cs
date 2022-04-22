@@ -9,6 +9,8 @@ using University.BL.Repositories;
 using University.BL.Repositories.Implements;
 using AutoMapper;
 using University.BL.DTOs;
+using University.BL.Controls;
+using Newtonsoft.Json;
 
 namespace University.Web.Controllers
 {
@@ -28,6 +30,20 @@ namespace University.Web.Controllers
             var instructorsModel = await instructorRepository.GetAll();
             var instructorsDTO = instructorsModel.Select(x => mapper.Map<InstructorDTO>(x));
             return Json(instructorsDTO, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetInstructors()
+        {
+            var instructorsModel = await instructorRepository.GetAll();
+            var instructorsDTO = instructorsModel.Select(x => mapper.Map<InstructorDTO>(x));
+            var instructorsSelect = instructorsDTO.Select(x => new SelectControl
+            {
+                Id = x.ID,
+                Text = x.FullName
+            });
+
+            return Json(JsonConvert.SerializeObject(instructorsSelect), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

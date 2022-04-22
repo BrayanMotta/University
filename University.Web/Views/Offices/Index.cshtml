@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Offices</h2>
+
+<select id="OfficeSelect" class="form-control"></select>
+<hr />
+
+<!-- Button trigger modal -->
+<button id="create" type="button" class="btn btn-success fas fa-plus">
+    Agregar
+</button>
+<hr />
+
+<div id="rowOffices">
+    <div id="divOffices">
+        <table id="tableOffices" class="table table-bordered" style="width:100%">
+        </table>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalOffices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Offices</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        getOffices();
+        getOfficesList();
+    });
+
+    $("#create").click(function () {
+        $("#modalOffices .modal-body", this).empty();
+        $("#modalOffices .modal-body").load("/Offices/Create");
+        $("#modalOffices").modal("show");
+    });
+
+    function getOffices() {
+        var $row = $('#rowOffices');
+        $('#divOffices').remove();
+        var $div = $('<div></div>');
+        $div.addClass('table-responsive mb-5');
+        $div.attr({ id: 'divOffices' });
+        $div.addClass('divOffices mb-5');
+        var $table = $("<table></table>");
+        $table.addClass('table table-bordered display text-center');
+        $table.attr({ id: 'tableOffices', width: '100%' });
+        $div.append($table);
+        $row.append($div);
+
+        $.get('/Offices/IndexJson').done(function (data) {
+            $.notify("Load data", "info");
+            console.table(data)
+
+            table = $('#tableOffices').DataTable({
+                data: data,
+                "iDisplayLength": 10,
+                "order": [[0, "desc"]],
+                columns: [
+                    { title: 'ID', data: 'InstructorID', className: 'd-none' },
+                    { title: 'Location', data: 'Location' },
+                    { title: 'Instructor', data: 'InstructorFormat' },
+                    { title: 'Options', data: null }
+                ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        render: function (data, type, row) {
+                            return '<a href="javascript:void" class="btn btn-warning edit fas fa-edit"> Edit</a>' +
+                                '<a href="javascript:void" class="btn btn-danger delete fas fa-trash"> Delete</a>';
+                        }
+                    }
+                ]
+            });
+
+            $('#tableOffices').on('click', 'tbody a.edit', function (e) {
+                let id = $(this).parent().siblings('td')[0].innerText;
+
+                $('#modalOffices .modal-body', this).empty();
+                $('#modalOffices .modal-body').load('/Offices/Edit/' + id);
+                $("#modalOffices").modal("show");
+            });
+
+            $('#tableOffices').on('click', 'tbody a.delete', function (data) {
+                let id = $(this).parent().siblings('td')[0].innerText;
+                deleteOffice(id);
+            });
+
+        }).fail(function (data) {
+            console.table(data);
+        });
+    }
+
+    function deleteOffice(id) {
+        $.get("/Offices/Delete/" + id).done(function (data) {
+            if (data.IsSuccess) {
+                getOffices();
+            } else {
+                $.notify(data.Message, "error");
+            }
+        }).fail(function (data) {
+            console.table(data);
+        })
+    }
+
+    function getOfficesList() {
+        $.get('/Offices/GetOffices', function (data) {
+            $("#OfficeSelect").empty();
+            $("#OfficeSelect").select2({
+                placeholder: "Seleccione",
+                data: JSON.parse(data)
+            });
+            $("#OfficeSelect").val("").trigger("change");
+        });
+    }
+</script>
+

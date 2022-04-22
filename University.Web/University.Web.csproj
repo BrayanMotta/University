@@ -127,11 +127,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
+    <Compile Include="App_Start\BundleConfig3.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstructorsController.cs" />
+    <Compile Include="Controllers\OfficesController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +210,9 @@
     <Content Include="Scripts\Libs\DataTables\datatables.js" />
     <Content Include="Scripts\Libs\DataTables\datatables.min.css" />
     <Content Include="Scripts\Libs\DataTables\datatables.min.js" />
+    <Content Include="Scripts\Libs\Morris\morris.css" />
+    <Content Include="Scripts\Libs\Morris\morris.js" />
+    <Content Include="Scripts\Libs\Morris\morris.min.js" />
     <Content Include="Scripts\Libs\Notify\notify.js" />
     <Content Include="Scripts\Libs\Select2\select2.min.css" />
     <Content Include="Scripts\Libs\Select2\select2.min.js" />
@@ -235,9 +243,18 @@
     <Content Include="Views\Instructors\Index.cshtml" />
     <Content Include="Views\Instructors\Create.cshtml" />
     <Content Include="Views\Instructors\Edit.cshtml" />
+    <Content Include="Views\Offices\Index.cshtml" />
+    <Content Include="Views\Offices\Create.cshtml" />
+    <Content Include="Views\Offices\Edit.cshtml" />
+    <Content Include="Views\Departments\Index.cshtml" />
+    <Content Include="Views\Departments\Create.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Dashboard\Donut.cshtml" />
+    <Content Include="Views\Dashboard\Bar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
