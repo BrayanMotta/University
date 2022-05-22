@@ -46,17 +46,20 @@
                 University
             </div>
             <div class="list-group list-group-flush">
-               
-                    @Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("About", "About", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("Contact", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("Courses", "Index", "Courses", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("Students", "Index", "Students", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("Instructors", "Index", "Instructors", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("Offices", "Index", "Offices", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    @Html.ActionLink("Departments", "Index", "Departments", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
-                    
-                
+
+                @Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("About", "About", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("Contact", "Contact", "Home", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("Courses", "Index", "Courses", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("Students", "Index", "Students", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("Instructors", "Index", "Instructors", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("Offices", "Index", "Offices", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("Departments", "Index", "Departments", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("DonutStudent", "DonutStudent", "Dashboard", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("DonutInstructor", "DonutInstructor", "Dashboard", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+                @Html.ActionLink("DonutCourse", "DonutCourse", "Dashboard", routeValues: null, htmlAttributes: new { @class = "list-group-item list-group-item-action bg-light" })
+
+
             </div>
         </div>
         <!-- ============================================================== -->
@@ -72,7 +75,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    
+
                 </div>
             </nav>
             <div class="container-fluid">
@@ -92,7 +95,12 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+
+        //var urlBase = "http://localhost/University.Web";
+        var urlBase = "";//only test
     </script>
+    
+
 
     @RenderSection("scripts", required: false)
 </body>

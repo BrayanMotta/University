@@ -49,7 +49,7 @@
 
     $("#create").click(function () {
         $("#modalStudents .modal-body", this).empty();
-        $("#modalStudents .modal-body").load("/Students/Create");
+        $("#modalStudents .modal-body").load(urlBase + "/Students/Create");
         $("#modalStudents").modal("show");
     });
 
@@ -66,7 +66,7 @@
         $div.append($table);
         $row.append($div);
 
-        $.get('/Students/IndexJson').done(function (data) {
+        $.get(urlBase + '/Students/IndexJson').done(function (data) {
             $.notify("Load data", "info");
             console.table(data)
 
@@ -96,7 +96,7 @@
                 let id = $(this).parent().siblings('td')[0].innerText;
 
                 $('#modalStudents .modal-body', this).empty();
-                $('#modalStudents .modal-body').load('/Students/Edit/' + id);
+                $('#modalStudents .modal-body').load(urlBase + '/Students/Edit/' + id);
                 $("#modalStudents").modal("show");
             });
 
@@ -110,16 +110,37 @@
         });
     }
 
+  
+
     function deleteStudent(id) {
-        $.get("/Students/Delete/" + id).done(function (data) {
-            if (data.IsSuccess) {
-                getStudents();
-            } else {
-                $.notify(data.Message, "error");
-            }
-        }).fail(function (data) {
-            console.table(data);
-        })
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this register!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    $.get(urlBase + "/Students/Delete/" + id, function (data) {
+                        if (data.IsSuccess) {
+                            getStudents();
+                            swal("Deleted!", "Your register has been deleted.", "success");
+                        } else {
+                            swal("Notification", data.Message, "error");
+                        }
+                    }).fail(function (data) {
+                        swal("Notification", data.Message, "error");
+                    })
+                } else {
+                    swal("Cancelled", "Your register is safe :)", "error");
+                }
+            });
     }
 </script>
 

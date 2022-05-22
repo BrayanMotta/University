@@ -53,7 +53,7 @@
 
     $("#create").click(function () {
         $("#modalDepartments .modal-body", this).empty();
-        $("#modalDepartments .modal-body").load("/Departments/Create");
+        $("#modalDepartments .modal-body").load(urlBase + "/Departments/Create");
         $("#modalDepartments").modal("show");
     });
 
@@ -70,7 +70,7 @@
         $div.append($table);
         $row.append($div);
 
-        $.get('/Departments/IndexJson').done(function (data) {
+        $.get(urlBase + '/Departments/IndexJson').done(function (data) {
             $.notify("Load data", "info");
             console.table(data)
 
@@ -101,7 +101,7 @@
                 let id = $(this).parent().siblings('td')[0].innerText;
 
                 $('#modalDepartments .modal-body', this).empty();
-                $('#modalDepartments .modal-body').load('/Departments/Edit/' + id);
+                $('#modalDepartments .modal-body').load(urlBase + '/Departments/Edit/' + id);
                 $("#modalDepartments").modal("show");
             });
 
@@ -115,20 +115,41 @@
         });
     }
 
+
+
     function deleteDepartment(id) {
-        $.get("/Departments/Delete/" + id).done(function (data) {
-            if (data.IsSuccess) {
-                getDepartments();
-            } else {
-                $.notify(data.Message, "error");
-            }
-        }).fail(function (data) {
-            console.table(data);
-        })
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this register!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    $.get(urlBase + "/Departments/Delete/" + id, function (data) {
+                        if (data.IsSuccess) {
+                            getDepartments();
+                            swal("Deleted!", "Your register has been deleted.", "success");
+                        } else {
+                            swal("Notification", data.Message, "error");
+                        }
+                    }).fail(function (data) {
+                        swal("Notification", data.Message, "error");
+                    })
+                } else {
+                    swal("Cancelled", "Your register is safe :)", "error");
+                }
+            });
     }
 
     function getDepartmentsList() {
-        $.get('/Departments/GetDepartments', function (data) {
+        $.get(urlBase + '/Departments/GetDepartments', function (data) {
             $("#DepartmentSelect").empty();
             $("#DepartmentSelect").select2({
                 placeholder: "Seleccione",

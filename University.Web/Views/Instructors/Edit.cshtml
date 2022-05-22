@@ -53,7 +53,7 @@
 
         var formData = $("#formEditInstructor").serialize();
 
-        $.post("/Instructors/Edit", formData).done(function (data) {
+        $.post(urlBase + "/Instructors/Edit", formData).done(function (data) {
             console.table(data);
 
 

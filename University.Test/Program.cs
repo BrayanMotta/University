@@ -6,21 +6,48 @@ using System.Threading.Tasks;
 using University.BL.Models;
 using University.BL.Repositories;
 using University.BL.Repositories.Implements;
+using University.BL.DTOs;
 
 namespace University.Test
 {
     class Program
     {
         private static readonly UniversityModel university = new UniversityModel();
-        private static readonly ICourseRepository courseRepository = new CourseRepository(new UniversityModel());
+        //private static readonly IEnrollmentRepository enrollmentRepository = new EnrollmentRepository(new UniversityModel());
         static void Main(string[] args)
         {
-            //var courses = university.Course.ToList();
-            //var courses2 = courseRepository.GetAll().Result;
+            //var courses = university.Enrollment.ToList();
+            //var courses2 = enrollmentRepository.GetAll().Result;
             //foreach (var item in courses2) 
             //{
-            //     Console.WriteLine($"{item.Title} {item.Credits}");
+            //  Console.WriteLine($"{item.EnrollmentID} {item.CourseID}");
             //}
+            //Console.WriteLine("\n");
+
+            var student = from q in university.Enrollment
+                          join en in university.Course on q.CourseID equals en.CourseID
+
+                          group en by (en.Title) into query
+                          orderby query.Count() descending
+                          select query;
+
+            var instructor = from q in university.Instructor
+                          join en in university.CourseInstructor on q.ID equals en.InstructorID
+                          group q by (q.FirstMidName +", "+ q.LastName) into query
+                          select query;
+
+            foreach (var item in instructor)
+            {
+              Console.WriteLine($"{item.Key} - {item.Count()}");
+            }
+
+            Console.WriteLine("\n");
+
+            var suma = university.CourseInstructor.Select(x => x.CourseID).Count();
+
+            Console.WriteLine(suma);
+
+            Console.WriteLine("\n");
 
             //var books = Book.Books();
             //foreach (var item in books)
@@ -34,6 +61,8 @@ namespace University.Test
             //{
             //    Console.WriteLine($"{item.Name}");
             //}
+
+
             var books = Book.Books();
             var authors = Author.Authors();
 
@@ -71,6 +100,8 @@ namespace University.Test
                            b.Title
                        }).ToList();
 
+            
+            
             foreach (var item in ex1)
             {
                 Console.WriteLine($"{item.Title} - {item.Sales}");

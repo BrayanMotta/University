@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Donut";
+    ViewBag.Title = "DonutInstructor";
 }
 
-<h2>Donut</h2>
+<h2>Cantidad de cursos dictados por instructor</h2>
 <div id="graph"></div>
 
 <script>
@@ -12,12 +12,12 @@
     });
 
     function getData() {
-        $.get(urlBase + '/Dashboard/DonutJson').done(function (data) {
+        $.get(urlBase + '/Dashboard/DonutInstructors').done(function (data) {
 
             Morris.Donut({
                 element: 'graph',
                 data: JSON.parse(data),
-                formatter: function (x) { return x + "%" }
+                formatter: function (x) { return x + " cursos"}
             }).on('click', function (i, row) {
                 console.log(i, row);
             });
@@ -26,5 +26,5 @@
             console.log(ex);
         });
     }
-    
+
 </script>

@@ -220,6 +220,9 @@
     <Content Include="Scripts\Libs\SweetAlert\sweetalert.js" />
     <Content Include="Scripts\Libs\SweetAlert\sweetalert.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Views\Courses\Create.js" />
+    <Content Include="Scripts\Views\Courses\Edit.js" />
+    <Content Include="Scripts\Views\Courses\Index.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -251,6 +254,9 @@
     <Content Include="Views\Departments\Edit.cshtml" />
     <Content Include="Views\Dashboard\Donut.cshtml" />
     <Content Include="Views\Dashboard\Bar.cshtml" />
+    <Content Include="Views\Dashboard\DonutStudent.cshtml" />
+    <Content Include="Views\Dashboard\DonutInstructor.cshtml" />
+    <Content Include="Views\Dashboard\DonutCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -52,7 +52,7 @@
 
         var formData = $("#formCreateInstructor").serialize();
 
-        $.post("/Instructors/Create", formData).done(function (data) {
+        $.post(urlBase + "/Instructors/Create", formData).done(function (data) {
             console.table(data);
 
 

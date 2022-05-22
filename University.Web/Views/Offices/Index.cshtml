@@ -53,7 +53,7 @@
 
     $("#create").click(function () {
         $("#modalOffices .modal-body", this).empty();
-        $("#modalOffices .modal-body").load("/Offices/Create");
+        $("#modalOffices .modal-body").load(urlBase + "/Offices/Create");
         $("#modalOffices").modal("show");
     });
 
@@ -70,7 +70,7 @@
         $div.append($table);
         $row.append($div);
 
-        $.get('/Offices/IndexJson').done(function (data) {
+        $.get(urlBase + '/Offices/IndexJson').done(function (data) {
             $.notify("Load data", "info");
             console.table(data)
 
@@ -99,7 +99,7 @@
                 let id = $(this).parent().siblings('td')[0].innerText;
 
                 $('#modalOffices .modal-body', this).empty();
-                $('#modalOffices .modal-body').load('/Offices/Edit/' + id);
+                $('#modalOffices .modal-body').load(urlBase + '/Offices/Edit/' + id);
                 $("#modalOffices").modal("show");
             });
 
@@ -113,20 +113,41 @@
         });
     }
 
+    
+
     function deleteOffice(id) {
-        $.get("/Offices/Delete/" + id).done(function (data) {
-            if (data.IsSuccess) {
-                getOffices();
-            } else {
-                $.notify(data.Message, "error");
-            }
-        }).fail(function (data) {
-            console.table(data);
-        })
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this register!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+
+                    $.get(urlBase + "/Offices/Delete/" + id, function (data) {
+                        if (data.IsSuccess) {
+                            getOffices();
+                            swal("Deleted!", "Your register has been deleted.", "success");
+                        } else {
+                            swal("Notification", data.Message, "error");
+                        }
+                    }).fail(function (data) {
+                        swal("Notification", data.Message, "error");
+                    })
+                } else {
+                    swal("Cancelled", "Your register is safe :)", "error");
+                }
+            });
     }
 
     function getOfficesList() {
-        $.get('/Offices/GetOffices', function (data) {
+        $.get(urlBase + '/Offices/GetOffices', function (data) {
             $("#OfficeSelect").empty();
             $("#OfficeSelect").select2({
                 placeholder: "Seleccione",

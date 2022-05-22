@@ -64,7 +64,7 @@
 
         var formData = $("#formEditDepartment").serialize();
 
-        $.post("/Departments/Edit", formData).done(function (data) {
+        $.post(urlBase + "/Departments/Edit", formData).done(function (data) {
             console.table(data);
 
 
@@ -84,7 +84,7 @@
     }
 
     function getInstructorsList() {
-        $.get('/Instructors/GetInstructors', function (data) {
+        $.get(urlBase + '/Instructors/GetInstructors', function (data) {
             $("#InstructorID").empty();
             $("#InstructorID").select2({
                 placeholder: "Seleccione",
